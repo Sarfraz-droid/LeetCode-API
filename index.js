@@ -21,14 +21,19 @@ const getUserRanking = async (username) => {
       if (data.data?.matchedUser?.username) {
         console.log("FOUND USER : ", username);
         ranking = {
+          ...ranking,
           ranking: data.data.matchedUser.profile.ranking,
           realName: data.data.matchedUser.profile.realName,
           username: data.data.matchedUser.username,
         };
+      } else if (data.data?.userContestRanking) {
+        ranking = {
+          ...ranking,
+          contest_rating: data.data.userContestRanking.rating,
+        };
+        return true;
       }
     }
-
-    return response.url().startsWith("https://assets.leetcode.com/users/");
   });
 
   return ranking;
